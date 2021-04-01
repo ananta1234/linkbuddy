@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-import pyshorteners
+# import pyshorteners
 import pandas as pd
 
 
@@ -7,8 +7,9 @@ app = Flask(__name__)
 
 
 def shorten_url(long_url):
-  s = pyshorteners.Shortener()
-  short = s.tinyurl.short(long_url)
+  # s = pyshorteners.Shortener()
+  # short = s.tinyurl.short(long_url)
+  short = long_url[:5]
   return short
 
 @app.route('/')
