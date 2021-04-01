@@ -1,7 +1,32 @@
-from flask import Flask
-  
+from flask import Flask, render_template, request
+import pyshorteners
+import pandas as pd
+
+
 app = Flask(__name__)
-  
-@app.route("/")
-def home_view():
-        return "<h1>Welcome to Geeks for Geeks</h1>"
+
+
+def shorten_url(long_url):
+  s = pyshorteners.Shortener()
+  short = s.tinyurl.short(long_url)
+  return short
+
+@app.route('/')
+def student():
+   return render_template('student.html')
+
+@app.route('/result',methods = ['POST', 'GET'])
+def result():
+   if request.method == 'POST':
+      result = request.form
+      mess = result["message"]
+      urls = mess.split("\n")
+
+      short_urls = []
+
+      for u in urls:
+        u = u.strip()
+        sh = shorten_url(u)
+        short_urls.append(sh)
+
+      return render_template("result.html",result = short_urls)
